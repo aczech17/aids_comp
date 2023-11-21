@@ -100,9 +100,16 @@ public class HuffmanTree
         root = queue.extractMin();
     }
 
+    public boolean isEmpty()
+    {
+        return root == null;
+    }
+
     // **** DEBUG ****
     public void printInOrder()
     {
+        if (isEmpty())
+            return;
         printInOrderFromNode(root);
     }
 
