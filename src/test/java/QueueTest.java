@@ -1,13 +1,12 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import Exceptions.EmptyQueue;
 import Structures.MinimalPriorityQueue;
 import org.junit.jupiter.api.Test;
 
 public class QueueTest
 {
-    private int getMinimalValue(int[] input) throws EmptyQueue
+    private int getMinimalValue(int[] input)
     {
         MinimalPriorityQueue<Integer> queue = new MinimalPriorityQueue<>();
 
@@ -19,7 +18,7 @@ public class QueueTest
         return queue.extractMin();
     }
     @Test
-    public void oneValue() throws EmptyQueue
+    public void oneValue()
     {
        int min = getMinimalValue(new int[]{2});
 
@@ -27,7 +26,7 @@ public class QueueTest
     }
 
     @Test
-    public void valuesAscending() throws EmptyQueue
+    public void valuesAscending()
     {
         int min = getMinimalValue(new int[]{1, 2, 3, 7});
 
@@ -35,7 +34,7 @@ public class QueueTest
     }
 
     @Test
-    public void valuesDescending() throws EmptyQueue
+    public void valuesDescending()
     {
         int min = getMinimalValue(new int[]{7, 3, 2, 1});
 
@@ -43,7 +42,7 @@ public class QueueTest
     }
 
     @Test
-    public void valuesRandom() throws EmptyQueue
+    public void valuesRandom()
     {
         int min = getMinimalValue(new int[]{2, 1, -3, 7, 14, 88 -2, 0, 5});
 
@@ -59,7 +58,7 @@ public class QueueTest
     }
 
     @Test
-    public void correctSizeAfterPuttingAndExtracting() throws EmptyQueue
+    public void correctSizeAfterPuttingAndExtracting()
     {
         MinimalPriorityQueue<Integer> queue = new MinimalPriorityQueue<>();
 
@@ -75,7 +74,7 @@ public class QueueTest
     }
 
     @Test
-    public void shouldBeEmptyAfterPuttingFewAndExtractingEverything() throws EmptyQueue
+    public void shouldBeEmptyAfterPuttingFewAndExtractingEverything()
     {
         MinimalPriorityQueue<Integer> queue = new MinimalPriorityQueue<>();
 
@@ -91,7 +90,7 @@ public class QueueTest
     }
 
     @Test
-    public void shouldBeEmptyAfterPuttingOneAndExtractingOne() throws EmptyQueue
+    public void shouldBeEmptyAfterPuttingOneAndExtractingOne()
     {
         MinimalPriorityQueue<Integer> queue = new MinimalPriorityQueue<>();
 
@@ -103,7 +102,7 @@ public class QueueTest
     }
 
     @Test
-    public void megaTest() throws EmptyQueue
+    public void megaTest()
     {
         MinimalPriorityQueue<Integer> queue = new MinimalPriorityQueue<>();
 
@@ -124,5 +123,15 @@ public class QueueTest
 
             assertEquals(expected, minimum);
         }
+    }
+
+    @Test
+    public void extractFromEmpty()
+    {
+        MinimalPriorityQueue<Integer> queue = new MinimalPriorityQueue<>();
+
+        Integer value = queue.extractMin();
+
+        assertNull(value);
     }
 }
