@@ -55,15 +55,6 @@ public class HuffmanTree
             return;
         }
 
-        if (byteFrequencies.size() == 1)
-        {
-            Byte byteValue = (Byte) byteFrequencies.keySet().toArray()[0];
-            int frequency = byteFrequencies.get(byteValue);
-
-            root = new Node(byteValue, frequency);
-            return;
-        }
-
         MinimalPriorityQueue<Node> queue = new MinimalPriorityQueue<Node>();
 
         for (byte byteValue: byteFrequencies.keySet())

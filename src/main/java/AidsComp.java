@@ -28,7 +28,7 @@ public class AidsComp
 
     public static void main(String[] args) throws IOException, EmptyQueue
     {
-        HashMap<Byte, Integer> byteFreqMap = getFrequencyMap("data.txt");
+        HashMap<Byte, Integer> byteFreqMap = getFrequencyMap("data2.txt");
         HuffmanTree tree = new HuffmanTree(byteFreqMap);
 
         tree.printInOrder();
