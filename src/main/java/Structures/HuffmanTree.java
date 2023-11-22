@@ -46,12 +46,6 @@ public class HuffmanTree
 
     public HuffmanTree(HashMap<Byte, Integer> byteFrequencies)
     {
-//        if (byteFrequencies.size() == 0)
-//        {
-//            root = null;
-//            return;
-//        }
-
         MinimalPriorityQueue<Node> queue = new MinimalPriorityQueue<Node>();
 
         for (byte byteValue: byteFrequencies.keySet())
