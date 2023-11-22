@@ -72,6 +72,47 @@ public class HuffmanTree
         return root == null;
     }
 
+    public HashMap<Byte, BitVector> getCodes()
+    {
+        if (root == null)
+            return null;
+
+        HashMap<Byte, BitVector> map = new HashMap<>();
+
+        if (root.left == null) // only one node
+        {
+            BitVector zeroBit = new BitVector();
+            zeroBit.pushBit(0);
+
+            map.put(root.getValue(), zeroBit);
+            return map;
+        }
+
+        BitVector code = new BitVector();
+        traverseTree(root, code, map);
+
+        return map;
+    }
+
+    private void traverseTree(Node node, BitVector code, HashMap<Byte, BitVector> codes)
+    {
+        if (node.left != null)
+        {
+            code.pushBit(0);
+            traverseTree(node.left, code, codes);
+        }
+        if (node.right != null)
+        {
+            code.pushBit(1);
+            traverseTree(node.right, code, codes);
+        }
+        else // is a leaf
+        {
+            codes.put(node.getValue(), code.clone());
+        }
+        code.popBit();
+    }
+
     // **** DEBUG ****
     public void printInOrder()
     {
