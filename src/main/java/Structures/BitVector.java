@@ -51,7 +51,10 @@ public class BitVector
 
     public void popBit()
     {
-        size--;
+        if (size > 0)
+        {
+            size--;
+        }
     }
 
     public int getBit(int index)
@@ -71,5 +74,38 @@ public class BitVector
     public int size()
     {
         return size;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o == this)
+            return true;
+        if (!(o instanceof BitVector))
+            return false;
+
+        BitVector other = (BitVector)o;
+
+        if (this.size != other.size)
+            return false;
+
+        for (int i = 0; i < this.size; i++)
+        {
+            if (this.getBit(i) != other.getBit(i))
+                return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public BitVector clone()
+    {
+        BitVector vector = new BitVector();
+
+        for (int i = 0; i < this.size; i++)
+            vector.pushBit(this.getBit(i));
+
+        return vector;
     }
 }
