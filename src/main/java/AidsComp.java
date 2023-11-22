@@ -1,4 +1,3 @@
-import Exceptions.EmptyQueue;
 import Structures.HuffmanTree;
 
 import java.io.FileInputStream;
@@ -26,9 +25,9 @@ public class AidsComp
         return map;
     }
 
-    public static void main(String[] args) throws IOException, EmptyQueue
+    public static void main(String[] args) throws IOException
     {
-        HashMap<Byte, Integer> byteFreqMap = getFrequencyMap("data2.txt");
+        HashMap<Byte, Integer> byteFreqMap = getFrequencyMap("empty.txt");
         HuffmanTree tree = new HuffmanTree(byteFreqMap);
 
         tree.printInOrder();

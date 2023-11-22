@@ -1,7 +1,4 @@
 package Structures;
-
-import Exceptions.EmptyQueue;
-
 public class MinimalPriorityQueue<K extends Comparable<K>>
 {
     private K[] array;
@@ -89,10 +86,10 @@ public class MinimalPriorityQueue<K extends Comparable<K>>
         return arraySize;
     }
 
-    public K extractMin() throws EmptyQueue
+    public K extractMin()
     {
-        if (arraySize < 1)
-            throw new EmptyQueue("queue empty");
+        if (arraySize == 0)
+            return null;
 
         K minimum = array[0];
 

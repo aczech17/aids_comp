@@ -1,7 +1,4 @@
 package Structures;
-
-import Exceptions.EmptyQueue;
-
 import java.util.HashMap;
 
 public class HuffmanTree
@@ -47,13 +44,13 @@ public class HuffmanTree
         return newNode;
     }
 
-    public HuffmanTree(HashMap<Byte, Integer> byteFrequencies) throws EmptyQueue
+    public HuffmanTree(HashMap<Byte, Integer> byteFrequencies)
     {
-        if (byteFrequencies.size() == 0)
-        {
-            root = null;
-            return;
-        }
+//        if (byteFrequencies.size() == 0)
+//        {
+//            root = null;
+//            return;
+//        }
 
         MinimalPriorityQueue<Node> queue = new MinimalPriorityQueue<Node>();
 
@@ -66,23 +63,8 @@ public class HuffmanTree
 
         while (queue.size() > 1)
         {
-            Node leftNode, rightNode;
-            try
-            {
-                leftNode = queue.extractMin();
-            }
-            catch (EmptyQueue emptyQueue)
-            {
-                throw new EmptyQueue("Could not extract left node");
-            }
-            try
-            {
-                rightNode = queue.extractMin();
-            }
-            catch (EmptyQueue emptyQueue)
-            {
-                throw new EmptyQueue("Could not extract right node");
-            }
+            Node leftNode = queue.extractMin();
+            Node rightNode = queue.extractMin();
 
             Node newNode = joinNodes(leftNode, rightNode);
             queue.insert(newNode);
