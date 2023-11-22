@@ -1,28 +1,36 @@
 import Exceptions.EmptyQueue;
 import Structures.HuffmanTree;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class AidsComp
 {
-    public static void main(String[] args)
+    static HashMap<Byte, Integer> getFrequencyMap(String filename) throws IOException
     {
-        HashMap<Byte, Integer> byteFreqMap = new HashMap<>();
-        
-        byteFreqMap.put((byte) 'A', 1);
-        byteFreqMap.put((byte) 'B', 2);
-        byteFreqMap.put((byte) 'C', 3);
-        byteFreqMap.put((byte) 'D', 4);
-        byteFreqMap.put((byte) 'E', 5);
+        HashMap<Byte, Integer> map = new HashMap<>();
+        try(FileInputStream file = new FileInputStream(filename))
+        {
+            while (true)
+            {
+                int readResult = file.read();
+                if (readResult == -1)
+                    break;
 
-        try
-        {
-            HuffmanTree tree = new HuffmanTree(byteFreqMap);
-            tree.printInOrder();
+                byte byteRead = (byte) readResult;
+                map.merge(byteRead, 1, Integer::sum);
+            }
         }
-        catch (EmptyQueue emptyQueue)
-        {
-            System.out.println(emptyQueue.getMessage());
-        }
+
+        return map;
+    }
+
+    public static void main(String[] args) throws IOException, EmptyQueue
+    {
+        HashMap<Byte, Integer> byteFreqMap = getFrequencyMap("data.txt");
+        HuffmanTree tree = new HuffmanTree(byteFreqMap);
+
+        tree.printInOrder();
     }
 }
