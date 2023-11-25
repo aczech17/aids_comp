@@ -30,6 +30,9 @@ public class Compressor
 
     public static void compress(RandomAccessFile input, BitWriter output) throws IOException
     {
+        if (input.length() == 0)
+            return; // empty input => empty output
+
         var byteFrequencies = getByteFrequencies(input);
         HuffmanTree huffmanTree = new HuffmanTree(byteFrequencies);
         var bytesEncoding = huffmanTree.getBytesEncoding();

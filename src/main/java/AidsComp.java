@@ -13,7 +13,7 @@ public class AidsComp
         RandomAccessFile input = null;
         try
         {
-            input = new RandomAccessFile("data/data.txt", "rw");
+            input = new RandomAccessFile("data/empty.txt", "rw");
         }
         catch (FileNotFoundException exception)
         {
