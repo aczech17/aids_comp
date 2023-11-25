@@ -19,7 +19,7 @@ public class BitVector
         if (size == bitsAllocated)
         {
             byte[] newArray = new byte[2 * array.length];
-            System.arraycopy(array, 0, newArray, 0, size);
+            System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
         }
     }
