@@ -23,22 +23,17 @@ public class BitWriter
         byteOffset++;
         if (byteOffset == 8)
         {
-            writeCurrentByte();
+            file.writeByte((int)currentByte);
+            currentByte = 0;
+            byteOffset = 0;
         }
-    }
-
-    public void writeCurrentByte() throws IOException
-    {
-        file.writeByte((int)currentByte); // why int?
-        currentByte = 0;
-        byteOffset = 0;
     }
 
     public void writeTheRest() throws IOException
     {
         if (byteOffset > 0)
         {
-            writeCurrentByte();
+            file.writeByte((int)currentByte);
         }
     }
 
@@ -51,19 +46,13 @@ public class BitWriter
         }
     }
 
-//    public int getByteOffset()
-//    {
-//        return byteOffset;
-//    }
-
     public void writePadding() throws IOException
     {
         file.seek(0);
-        byte zeroByte = file.readByte();
 
+        byte zeroByte = file.readByte();
         zeroByte |= (byte)(byteOffset << 5);
 
-        file.seek(0);
         file.writeByte((int)zeroByte);
     }
 }

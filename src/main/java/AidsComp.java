@@ -13,7 +13,7 @@ public class AidsComp
         RandomAccessFile input = null;
         try
         {
-            input = new RandomAccessFile("data/empty.txt", "rw");
+            input = new RandomAccessFile("data/data.txt", "rw");
         }
         catch (FileNotFoundException exception)
         {
@@ -39,7 +39,6 @@ public class AidsComp
         catch (IOException exception)
         {
             System.out.println(exception.getMessage());
-            return;
         }
     }
 }
