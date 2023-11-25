@@ -53,6 +53,7 @@ public class BitWriter
         byte zeroByte = file.readByte();
         zeroByte |= (byte)(byteOffset << 5);
 
+        file.seek(0);
         file.writeByte((int)zeroByte);
     }
 }
