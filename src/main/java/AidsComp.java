@@ -8,27 +8,57 @@ import java.util.HashMap;
 
 public class AidsComp
 {
-    public static void main(String[] args)
+    private static boolean fileExists(String filename)
     {
-        RandomAccessFile input = null;
         try
         {
-            input = new RandomAccessFile("data/data.txt", "rw");
+            RandomAccessFile file = new RandomAccessFile(filename, "r");
         }
         catch (FileNotFoundException exception)
         {
-            System.out.println("file not found :/");
+            return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args)
+    {
+        if (args.length < 2)
+        {
+            final String usage = "aids_comp [input filename] [output filename]";
+            System.out.println(usage);
+            return;
+        }
+
+        String inputFilename = args[0];
+        String outputFilename = args[1];
+
+        if (fileExists(outputFilename))
+        {
+            System.out.println("File " + outputFilename + " already exists.");
+            return;
+        }
+
+        RandomAccessFile input = null;
+        try
+        {
+            input = new RandomAccessFile(inputFilename, "r");
+        }
+        catch (FileNotFoundException exception)
+        {
+            System.out.println("File " + inputFilename + " does not exist.");
             return;
         }
 
         BitWriter output = null;
         try
         {
-            output = new BitWriter("output");
+            output = new BitWriter(outputFilename);
         }
         catch (IOException e)
         {
-            System.out.println("nie utworzono pliku output");
+            System.out.print("Could not open file " + outputFilename + ". ");
+            System.out.println(e.getMessage());
             return;
         }
 
@@ -38,6 +68,7 @@ public class AidsComp
         }
         catch (IOException exception)
         {
+            System.out.print("Could not compress file. ");
             System.out.println(exception.getMessage());
         }
     }
