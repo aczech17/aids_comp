@@ -49,9 +49,10 @@ public class BitWriter
     public void writePadding() throws IOException
     {
         file.seek(0);
-
         byte zeroByte = file.readByte();
-        zeroByte |= (byte)(byteOffset << 5);
+
+        int padding = (8 - byteOffset) % 8;
+        zeroByte |= (byte)(padding << 5);
 
         file.seek(0);
         file.writeByte((int)zeroByte);
