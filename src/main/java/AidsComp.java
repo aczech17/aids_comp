@@ -1,10 +1,6 @@
-import Structures.HuffmanTree;
-
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.HashMap;
 
 public class AidsComp
 {
