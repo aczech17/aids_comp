@@ -72,7 +72,7 @@ public class HuffmanTree
         return root == null;
     }
 
-    public HashMap<Byte, BitVector> getCodes()
+    public HashMap<Byte, BitVector> getBytesEncoding()
     {
         if (root == null)
             return null;
@@ -89,28 +89,51 @@ public class HuffmanTree
         }
 
         BitVector code = new BitVector();
-        traverseTree(root, code, map);
+        getBytesEncodingRecursive(root, code, map);
 
         return map;
     }
 
-    private void traverseTree(Node node, BitVector code, HashMap<Byte, BitVector> codes)
+    private void getBytesEncodingRecursive(Node node, BitVector code, HashMap<Byte, BitVector> codes)
     {
         if (node.left != null)
         {
             code.pushBit(0);
-            traverseTree(node.left, code, codes);
+            getBytesEncodingRecursive(node.left, code, codes);
         }
         if (node.right != null)
         {
             code.pushBit(1);
-            traverseTree(node.right, code, codes);
+            getBytesEncodingRecursive(node.right, code, codes);
         }
         else // is a leaf
         {
             codes.put(node.getValue(), code.clone());
         }
         code.popBit();
+    }
+
+    public BitVector getTreeEncoding()
+    {
+        BitVector encoding = new BitVector();
+        getTreeEncodingRecursive(root, encoding);
+
+        return encoding;
+    }
+
+    private void getTreeEncodingRecursive(Node node, BitVector vector)
+    {
+        if (node.left == null) // is a leaf
+        {
+            vector.pushBit(1);
+            vector.pushByte(node.getValue());
+        }
+        else
+        {
+            vector.pushBit(0);
+            getTreeEncodingRecursive(node.left, vector);
+            getTreeEncodingRecursive(node.right, vector);
+        }
     }
 
     // **** DEBUG ****

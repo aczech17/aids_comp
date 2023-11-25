@@ -71,6 +71,15 @@ public class BitVector
         return (B & mask) == 0 ? 0 : 1;
     }
 
+    public void pushByte(byte B)
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            int bit = (B >> 7 - i) & 1;
+            pushBit(bit);
+        }
+    }
+
     public int size()
     {
         return size;

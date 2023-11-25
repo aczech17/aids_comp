@@ -175,4 +175,34 @@ public class BitVectorTest
 
         assertEquals(vector1, vector2);
     }
+
+    @Test
+    public void pushOneByte()
+    {
+        BitVector vector = new BitVector();
+        vector.pushByte((byte)0b11100101);
+
+        int[] expectedBits = {1, 1, 1, 0, 0, 1, 0, 1};
+
+        for (int i = 0; i < 8; i++)
+        {
+            assertEquals(vector.getBit(i), expectedBits[i]);
+        }
+    }
+
+    @Test
+    public void pushTwoBitsAndOneByte()
+    {
+        BitVector vector = new BitVector();
+        vector.pushBit(1);
+        vector.pushBit(0);
+        vector.pushByte((byte)0b11100101);
+
+        int[] expectedBits = {1, 0, 1, 1, 1, 0, 0, 1, 0, 1};
+
+        for (int i = 0; i < 10; i++)
+        {
+            assertEquals(vector.getBit(i), expectedBits[i]);
+        }
+    }
 }

@@ -13,7 +13,7 @@ public class HuffmanTreeTest
         HashMap<Byte, Integer> emptyMap = new HashMap<>();
         HuffmanTree tree = new HuffmanTree(emptyMap);
 
-        assertNull(tree.getCodes());
+        assertNull(tree.getBytesEncoding());
     }
 
     @Test
@@ -24,7 +24,7 @@ public class HuffmanTreeTest
 
         HuffmanTree tree = new HuffmanTree(byteFrequencies);
 
-        HashMap<Byte, BitVector> codes = tree.getCodes();
+        HashMap<Byte, BitVector> codes = tree.getBytesEncoding();
 
         BitVector expectedCode = new BitVector();
         expectedCode.pushBit(0);
@@ -45,7 +45,7 @@ public class HuffmanTreeTest
         byteFrequencies.put((byte)'D', 4);
 
         HuffmanTree tree = new HuffmanTree(byteFrequencies);
-        var codes = tree.getCodes();
+        var codes = tree.getBytesEncoding();
 
         HashMap<Byte, BitVector> expectedCodes = new HashMap<>();
 
