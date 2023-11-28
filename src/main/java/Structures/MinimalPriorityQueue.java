@@ -51,21 +51,21 @@ public class MinimalPriorityQueue<K extends Comparable<K>>
 
     private void heapDown(int i)
     {
-        int l = left(i);
-        int r = right(i);
-        int smallest;
-        if (l < arraySize && array[l].compareTo(array[i]) < 0)
-            smallest = l;
-        else
-            smallest = i;
-
-        if (r < arraySize && array[r].compareTo(array[smallest]) < 0)
-            smallest = r;
-
-        if (smallest != i)
+        while (true)
         {
-            swapElements(i, smallest);
-            heapDown(smallest);
+            int smallest = i;
+            if (left(i) < arraySize && array[left(i)].compareTo(array[i]) < 0)
+                smallest = left(i);
+            if (right(i) < arraySize && array[right(i)].compareTo(array[smallest]) < 0)
+                smallest = right(i);
+
+            if (smallest != i)
+            {
+                swapElements(i, smallest);
+                i = smallest;
+            }
+            else
+                break;
         }
     }
 
@@ -85,11 +85,6 @@ public class MinimalPriorityQueue<K extends Comparable<K>>
         heapUp(arraySize - 1);
     }
 
-    public int size()
-    {
-        return arraySize;
-    }
-
     public K extractMin()
     {
         if (arraySize == 0)
@@ -103,5 +98,10 @@ public class MinimalPriorityQueue<K extends Comparable<K>>
         heapDown(0);
 
         return minimum;
+    }
+
+    public int size()
+    {
+        return arraySize;
     }
 }
