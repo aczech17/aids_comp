@@ -42,7 +42,14 @@ public class MinimalPriorityQueue<K extends Comparable<K>>
         return i / 2;
     }
 
-    private void heapify(int i)
+    private void swapElements(int i, int j)
+    {
+        K tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+    }
+
+    private void heapDown(int i)
     {
         int l = left(i);
         int r = right(i);
@@ -58,27 +65,24 @@ public class MinimalPriorityQueue<K extends Comparable<K>>
         if (smallest != i)
         {
             swapElements(i, smallest);
-            heapify(smallest);
+            heapDown(smallest);
         }
     }
 
-    private void swapElements(int i, int j)
+    private void heapUp(int i)
     {
-        K tmp = array[i];
-        array[i] = array[j];
-        array[j] = tmp;
+        while (i > 0 && array[parent(i)].compareTo(array[i]) > 0)
+        {
+            swapElements(i, parent(i));
+            i = parent(i);
+        }
     }
 
     public void insert(K object)
     {
         incrementArraySize();
-        int i = arraySize - 1;
-        while (i > 0 && array[parent(i)].compareTo(object) > 0)
-        {
-            array[i] = array[parent(i)];
-            i = parent(i);
-        }
-        array[i] = object;
+        array[arraySize - 1] = object;
+        heapUp(arraySize - 1);
     }
 
     public int size()
@@ -96,7 +100,7 @@ public class MinimalPriorityQueue<K extends Comparable<K>>
         array[0] = array[arraySize - 1];
         arraySize--;
 
-        heapify(0);
+        heapDown(0);
 
         return minimum;
     }
