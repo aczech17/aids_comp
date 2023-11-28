@@ -1,23 +1,28 @@
+import Structures.AssociativeArray.AssociativeArray;
 import Structures.BitVector;
 import Structures.HuffmanTree;
 
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.HashMap;
 
 public class Compressor
 {
-    private static HashMap<Byte, Integer> getByteFrequencies(RandomAccessFile input) throws IOException
+    private static AssociativeArray<Byte, Integer> getByteFrequencies(RandomAccessFile input) throws IOException
     {
-        HashMap<Byte, Integer> frequencies = new HashMap<>();
+        AssociativeArray<Byte, Integer> frequencies = new AssociativeArray<>();
 
         for (;;)
         {
             try
             {
                 byte byteRead = input.readByte();
-                frequencies.merge(byteRead, 1, Integer::sum);
+                Integer frequency = frequencies.get(byteRead);
+
+                if (frequency == null)
+                    frequencies.put(byteRead, 1);
+                else
+                    frequencies.put(byteRead, frequency + 1);
             }
             catch (EOFException EOF)
             {

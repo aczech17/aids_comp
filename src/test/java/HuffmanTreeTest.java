@@ -1,3 +1,4 @@
+import Structures.AssociativeArray.AssociativeArray;
 import Structures.BitVector;
 import Structures.HuffmanTree;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ public class HuffmanTreeTest
     @Test
     public void emptyTreeGivesNullCodeMap()
     {
-        HashMap<Byte, Integer> emptyMap = new HashMap<>();
+        AssociativeArray<Byte, Integer> emptyMap = new AssociativeArray<>();
         HuffmanTree tree = new HuffmanTree(emptyMap);
 
         assertNull(tree.getBytesEncoding());
@@ -19,17 +20,17 @@ public class HuffmanTreeTest
     @Test
     public void onlyOneByteGivesCodeZero()
     {
-        HashMap<Byte, Integer> byteFrequencies = new HashMap<>();
+        AssociativeArray<Byte, Integer> byteFrequencies = new AssociativeArray<>();
         byteFrequencies.put((byte)0, 5);
 
         HuffmanTree tree = new HuffmanTree(byteFrequencies);
 
-        HashMap<Byte, BitVector> codes = tree.getBytesEncoding();
+        AssociativeArray<Byte, BitVector> codes = tree.getBytesEncoding();
 
         BitVector expectedCode = new BitVector();
         expectedCode.pushBit(0);
 
-        HashMap<Byte, BitVector> expectedCodes = new HashMap<>();
+        AssociativeArray<Byte, BitVector> expectedCodes = new AssociativeArray<>();
         expectedCodes.put((byte)0, expectedCode);
 
         assertEquals(expectedCodes, codes);
@@ -38,7 +39,7 @@ public class HuffmanTreeTest
     @Test
     public void A1B2C3D4()
     {
-        HashMap<Byte, Integer> byteFrequencies = new HashMap<>();
+        AssociativeArray<Byte, Integer> byteFrequencies = new AssociativeArray<>();
         byteFrequencies.put((byte)'A', 1);
         byteFrequencies.put((byte)'B', 2);
         byteFrequencies.put((byte)'C', 3);
@@ -47,7 +48,7 @@ public class HuffmanTreeTest
         HuffmanTree tree = new HuffmanTree(byteFrequencies);
         var codes = tree.getBytesEncoding();
 
-        HashMap<Byte, BitVector> expectedCodes = new HashMap<>();
+        AssociativeArray<Byte, BitVector> expectedCodes = new AssociativeArray<>();
 
         BitVector ACode = new BitVector();
         ACode.pushBit(1);

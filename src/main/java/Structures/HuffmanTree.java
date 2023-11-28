@@ -1,5 +1,5 @@
 package Structures;
-import java.util.HashMap;
+import Structures.AssociativeArray.AssociativeArray;
 
 public class HuffmanTree
 {
@@ -44,11 +44,11 @@ public class HuffmanTree
         return newNode;
     }
 
-    public HuffmanTree(HashMap<Byte, Integer> byteFrequencies)
+    public HuffmanTree(AssociativeArray<Byte, Integer> byteFrequencies)
     {
         MinimalPriorityQueue<Node> queue = new MinimalPriorityQueue<Node>();
 
-        for (byte byteValue: byteFrequencies.keySet())
+        for (byte byteValue: byteFrequencies)
         {
             int frequency = byteFrequencies.get(byteValue);
             Node node = new Node(byteValue, frequency);
@@ -72,12 +72,12 @@ public class HuffmanTree
         return root == null;
     }
 
-    public HashMap<Byte, BitVector> getBytesEncoding()
+    public AssociativeArray<Byte, BitVector> getBytesEncoding()
     {
         if (root == null)
             return null;
 
-        HashMap<Byte, BitVector> map = new HashMap<>();
+        AssociativeArray<Byte, BitVector> map = new AssociativeArray<>();
 
         if (root.left == null) // only one node
         {
@@ -94,7 +94,7 @@ public class HuffmanTree
         return map;
     }
 
-    private void getBytesEncodingRecursive(Node node, BitVector code, HashMap<Byte, BitVector> codes)
+    private void getBytesEncodingRecursive(Node node, BitVector code, AssociativeArray<Byte, BitVector> codes)
     {
         if (node.left != null)
         {
