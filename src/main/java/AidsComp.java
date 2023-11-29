@@ -53,7 +53,7 @@ public class AidsComp
         }
         catch (IOException e)
         {
-            System.out.print("Could not open file " + outputFilename + ". ");
+            System.out.print("Could not create file " + outputFilename + ". ");
             System.out.println(e.getMessage());
             return;
         }
