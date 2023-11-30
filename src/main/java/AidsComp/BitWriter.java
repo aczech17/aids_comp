@@ -1,3 +1,5 @@
+package AidsComp;
+
 import Structures.BitVector;
 
 import java.io.IOException;

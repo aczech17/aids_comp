@@ -1,6 +1,10 @@
 package Structures;
 import Structures.AssociativeArray.AssociativeArray;
 
+import AidsComp.BitReader;
+
+import java.io.IOException;
+
 public class HuffmanTree
 {
     private class Node implements Comparable<Node>
@@ -65,6 +69,27 @@ public class HuffmanTree
         }
 
         root = queue.extractMin();
+    }
+
+    public HuffmanTree(BitReader reader) throws IOException
+    {
+        root = new Node(null, 0);
+        recreateTree(root, reader);
+    }
+
+    private void recreateTree(Node n, BitReader reader) throws IOException
+    {
+        int bit = reader.readBit();
+        if (bit == 0)
+        {
+            n.left = new Node(null, 0); // Frequency is irrelevant.
+            recreateTree(n.left, reader);
+
+            n.right = new Node(null, 0);
+            recreateTree(n.right, reader);
+        }
+        else
+            n.value = reader.readByte();
     }
 
     public boolean isEmpty()

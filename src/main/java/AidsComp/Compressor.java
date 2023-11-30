@@ -1,3 +1,5 @@
+package AidsComp;
+
 import Structures.AssociativeArray.AssociativeArray;
 import Structures.BitVector;
 import Structures.HuffmanTree;

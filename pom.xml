@@ -46,7 +46,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>AidsComp</mainClass>
+                    <mainClass>AidsComp.AidsComp</mainClass>
                     <!-- Zmień "com.example.MainClassName" na nazwę Twojej klasy głównej -->
                 </configuration>
             </plugin>
