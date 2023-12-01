@@ -1,6 +1,6 @@
 package AidsComp;
 
-import AidsComp.IOUtil.BitWriter;
+import IOUtil.BitWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

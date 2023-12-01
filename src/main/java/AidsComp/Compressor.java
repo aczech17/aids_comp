@@ -1,6 +1,6 @@
 package AidsComp;
 
-import AidsComp.IOUtil.BitWriter;
+import IOUtil.BitWriter;
 import Structures.AssociativeArray.AssociativeArray;
 import Structures.BitVector;
 import Structures.HuffmanTree;

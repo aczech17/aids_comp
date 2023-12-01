@@ -1,7 +1,7 @@
 package Structures;
 import Structures.AssociativeArray.AssociativeArray;
 
-import AidsComp.IOUtil.BitReader;
+import IOUtil.BitReader;
 
 import java.io.IOException;
 
