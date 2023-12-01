@@ -1,7 +1,7 @@
 package Structures;
 import Structures.AssociativeArray.AssociativeArray;
 
-import AidsComp.BitReader;
+import AidsComp.IOUtil.BitReader;
 
 import java.io.IOException;
 
@@ -165,27 +165,4 @@ public class HuffmanTree
             getTreeEncodingRecursive(node.right, vector);
         }
     }
-
-    // **** DEBUG ****
-    public void printInOrder()
-    {
-        if (isEmpty())
-            return;
-        printInOrderFromNode(root);
-    }
-
-    private void printInOrderFromNode(Node node)
-    {
-        if (node.left != null)
-            printInOrderFromNode(node.left);
-
-        if (node.getValue() != null)
-            System.out.print((char) node.getValue().byteValue() + " ");
-        System.out.println(node.getFrequency());
-
-        if (node.right != null)
-            printInOrderFromNode(node.right);
-    }
-
-    // **** ****
 }
