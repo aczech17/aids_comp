@@ -1,4 +1,4 @@
-package AidsComp;
+package AidsComp.IOUtil;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;

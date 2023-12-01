@@ -1,4 +1,4 @@
-package AidsComp;
+package AidsComp.IOUtil;
 
 import Structures.BitVector;
 
