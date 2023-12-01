@@ -6,11 +6,25 @@ import Structures.BitVector;
 import Structures.HuffmanTree;
 
 import java.io.EOFException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class Compressor
 {
+    private static boolean fileExists(String filename)
+    {
+        try
+        {
+            RandomAccessFile file = new RandomAccessFile(filename, "r");
+        }
+        catch (FileNotFoundException exception)
+        {
+            return false;
+        }
+        return true;
+    }
+
     private static AssociativeArray<Byte, Integer> getByteFrequencies(RandomAccessFile input) throws IOException
     {
         AssociativeArray<Byte, Integer> frequencies = new AssociativeArray<>();
@@ -36,8 +50,17 @@ public class Compressor
         return frequencies;
     }
 
-    public static void compress(RandomAccessFile input, BitWriter output) throws IOException
+    public static void compress(String inputFilename, String outputFilename) throws IOException
     {
+        if (fileExists(outputFilename))
+        {
+            String message = "File " + outputFilename + " already exists.";
+            throw new IOException(message);
+        }
+
+        RandomAccessFile input = new RandomAccessFile(inputFilename, "r");
+        BitWriter output = new BitWriter(outputFilename);
+
         if (input.length() == 0)
             return; // empty input => empty output
 

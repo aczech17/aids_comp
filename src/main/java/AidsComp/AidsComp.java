@@ -1,46 +1,12 @@
 package AidsComp;
 
-import IOUtil.BitWriter;
-import java.io.RandomAccessFile;
+import static AidsComp.Compressor.compress;
+import static AidsComp.Decompressor.decompress;
 
 import java.io.IOException;
-import java.io.FileNotFoundException;
 
 public class AidsComp
 {
-    private static boolean fileExists(String filename)
-    {
-        try
-        {
-            RandomAccessFile file = new RandomAccessFile(filename, "r");
-        }
-        catch (FileNotFoundException exception)
-        {
-            return false;
-        }
-        return true;
-    }
-
-    private static void compress(String inputFilename, String outputFilename) throws IOException
-    {
-        if (fileExists(outputFilename))
-        {
-            String message = "File " + outputFilename + " already exists.";
-            throw new IOException(message);
-        }
-
-        RandomAccessFile input = new RandomAccessFile(inputFilename, "r");
-        BitWriter output = new BitWriter(outputFilename);
-
-        Compressor.compress(input, output);
-    }
-
-    private static void decompress(String inputFilename, String outputFilename) throws IOException
-    {
-        Decompressor decompressor = new Decompressor(inputFilename, outputFilename);
-        decompressor.decompress();
-    }
-
     public static void main(String[] args)
     {
         final String usage = "aids_comp -[c or d] [input filename] [output filename]";

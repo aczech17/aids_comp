@@ -9,24 +9,7 @@ import java.io.RandomAccessFile;
 
 public class Decompressor
 {
-    BitReader reader;
-    AssociativeArray<Byte, BitVector> bytesEncoding;
-    RandomAccessFile output;
-
-    public Decompressor(String inputFilename, String outputFilename) throws IOException
-    {
-        reader = new BitReader(inputFilename);
-        if (!reader.endOfFile()) // file is not empty
-        {
-            reader.setPaddingSize();
-        }
-
-        HuffmanTree tree = new HuffmanTree(reader);
-        bytesEncoding = tree.getBytesEncoding();
-        output = new RandomAccessFile(outputFilename, "rw");
-    }
-
-    private Byte getByteFromEncoding(BitVector bitVector)
+    private static Byte getByteFromEncoding(AssociativeArray<Byte, BitVector> bytesEncoding, BitVector bitVector)
     {
         for (byte B: bytesEncoding)
         {
@@ -36,24 +19,34 @@ public class Decompressor
         return null;
     }
 
-    private byte getNextByte() throws IOException
+    private static byte getNextByte(AssociativeArray<Byte, BitVector> bytesEncoding, BitReader reader) throws IOException
     {
         BitVector nextCodeWord = new BitVector();
 
         while (true)
         {
             nextCodeWord.pushBit(reader.readBit());
-            Byte byteFound = getByteFromEncoding(nextCodeWord);
+            Byte byteFound = getByteFromEncoding(bytesEncoding, nextCodeWord);
             if (byteFound != null)
                 return byteFound;
         }
     }
 
-    public void decompress() throws IOException
+    public static void decompress(String inputFilename, String outputFilename) throws IOException
     {
+        BitReader reader = new BitReader(inputFilename);
+        if (!reader.endOfFile()) // file is not empty
+        {
+            reader.setPaddingSize();
+        }
+
+        HuffmanTree tree = new HuffmanTree(reader);
+        AssociativeArray<Byte, BitVector> bytesEncoding = tree.getBytesEncoding();
+        RandomAccessFile output = new RandomAccessFile(outputFilename, "rw");
+
         while (!reader.endOfFile())
         {
-            byte nextByte = getNextByte();
+            byte nextByte = getNextByte(bytesEncoding, reader);
             output.writeByte((int)nextByte);
         }
     }
