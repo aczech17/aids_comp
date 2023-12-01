@@ -73,6 +73,11 @@ public class HuffmanTree
 
     public HuffmanTree(BitReader reader) throws IOException
     {
+        if (reader.endOfFile()) // file is empty
+        {
+            root = null;
+            return;
+        }
         root = new Node(null, 0);
         recreateTree(root, reader);
     }

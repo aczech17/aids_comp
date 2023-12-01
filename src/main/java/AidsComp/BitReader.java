@@ -15,37 +15,34 @@ public class BitReader
     public BitReader(String filename) throws IOException
     {
         currentByte = 0;
-        currentByteNumber = 0;
-        byteOffset = 0;
+        currentByteNumber = -1;
+        byteOffset = 8; // So that the first read of bit reads new byte.
 
         input = new RandomAccessFile(filename, "r");
 
-        paddingSize = (readBit() << 2) | (readBit() << 1) | readBit(); // ??? operator precedence
-        endOfFile = false;
+        //paddingSize = (readBit() << 2) | (readBit() << 1) | readBit(); // ??? operator precedence
+        paddingSize = 0;
+
+        endOfFile = (input.length() == 0);
     }
 
     public int readBit() throws IOException
     {
-        int bit = (currentByte >> (7 - byteOffset)) & 1;
-        if (!lastBitReached())
+        if (byteOffset == 8)
         {
-            byteOffset++;
-            if (byteOffset == 8)
-            {
-                currentByte = input.readByte();
-                currentByteNumber++;
-                byteOffset = 0;
-            }
+            currentByte = input.readByte();
+            currentByteNumber++;
+            byteOffset = 0;
         }
-        else
+
+        int bit = (currentByte >> (7 - byteOffset)) & 1;
+        byteOffset++;
+
+
+        if ((currentByteNumber == input.length() - 1) && (byteOffset > (7 - paddingSize)))
             endOfFile = true;
 
         return bit;
-    }
-
-    private boolean lastBitReached() throws IOException
-    {
-        return (currentByteNumber == input.length() - 1) && (byteOffset == (7 - paddingSize));
     }
 
     public byte readByte() throws IOException
@@ -62,5 +59,10 @@ public class BitReader
     public boolean endOfFile()
     {
         return endOfFile;
+    }
+
+    public void setPaddingSize() throws IOException
+    {
+        paddingSize = (readBit() << 2) | (readBit() << 1) | readBit(); // ??? operator precedence
     }
 }

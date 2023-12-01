@@ -15,6 +15,11 @@ public class Decompressor
     public Decompressor(String inputFilename, String outputFilename) throws IOException
     {
         reader = new BitReader(inputFilename);
+        if (!reader.endOfFile()) // file is not empty
+        {
+            reader.setPaddingSize();
+        }
+
         HuffmanTree tree = new HuffmanTree(reader);
         bytesEncoding = tree.getBytesEncoding();
         output = new RandomAccessFile(outputFilename, "rw");
