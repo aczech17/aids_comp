@@ -1,11 +1,10 @@
 package AidsComp;
 
 import IOUtil.BitWriter;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Objects;
+
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
 public class AidsComp
 {
