@@ -3,6 +3,9 @@ output
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+test_data/*
+META-INF/*
+out/*
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
