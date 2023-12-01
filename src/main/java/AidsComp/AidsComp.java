@@ -5,6 +5,7 @@ import IOUtil.BitWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Objects;
 
 public class AidsComp
 {
@@ -43,9 +44,9 @@ public class AidsComp
 
     public static void main(String[] args)
     {
+        final String usage = "aids_comp -[c or d] [input filename] [output filename]";
         if (args.length < 3)
         {
-            final String usage = "aids_comp -[c or d] [input filename] [output filename]";
             System.out.println(usage);
             return;
         }
@@ -54,29 +55,25 @@ public class AidsComp
         String inputFilename = args[1];
         String outputFilename = args[2];
 
-        if (option.equals("-c"))
+        switch (option)
         {
-            try
+            case "-c":
             {
-                compress(inputFilename, outputFilename);
+                try {compress(inputFilename, outputFilename);}
+                catch (IOException exception) {System.out.println(exception.getMessage());}
+                break;
             }
-            catch (IOException exception)
+            case "-d":
             {
-                System.out.println(exception.getMessage());
+                try {decompress(inputFilename, outputFilename);}
+                catch (IOException exception) {System.out.println(exception.getMessage());}
+                break;
+            }
+            default:
+            {
+                System.out.println("Unknown option " + option + ".");
+                System.out.println("Usage: " + usage);
             }
         }
-        else
-        {
-            try
-            {
-                decompress(inputFilename, outputFilename);
-            }
-            catch (IOException exception)
-            {
-                System.out.println(exception.getMessage());
-            }
-        }
-
-
     }
 }
