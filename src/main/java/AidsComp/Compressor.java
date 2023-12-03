@@ -1,5 +1,6 @@
 package AidsComp;
 
+import IOUtil.BitReader;
 import IOUtil.BitWriter;
 import Structures.AssociativeArray.AssociativeArray;
 import Structures.BitVector;
@@ -25,7 +26,7 @@ public class Compressor
         return true;
     }
 
-    private static AssociativeArray<Byte, Integer> getByteFrequencies(RandomAccessFile input) throws IOException
+    private static AssociativeArray<Byte, Integer> getByteFrequencies(BitReader input) throws IOException
     {
         AssociativeArray<Byte, Integer> frequencies = new AssociativeArray<>();
 
@@ -58,10 +59,10 @@ public class Compressor
             throw new IOException(message);
         }
 
-        RandomAccessFile input = new RandomAccessFile(inputFilename, "r");
+        BitReader input = new BitReader(inputFilename);
         BitWriter output = new BitWriter(outputFilename);
 
-        if (input.length() == 0)
+        if (input.endOfFile())
             return; // empty input => empty output
 
         var byteFrequencies = getByteFrequencies(input);
@@ -76,7 +77,7 @@ public class Compressor
 
         output.writeBitVector(treeEncoding);
 
-        input.seek(0);
+        input = new BitReader(inputFilename); // reset input
 
         for (;;) //read the input file
         {
