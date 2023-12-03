@@ -30,22 +30,16 @@ public class Compressor
     {
         AssociativeArray<Byte, Integer> frequencies = new AssociativeArray<>();
 
-        for (;;)
+        while (!input.endOfFile())
         {
-            try
-            {
-                byte byteRead = input.readByte();
-                Integer frequency = frequencies.get(byteRead);
+            byte byteRead = input.readByte();
+            Integer frequency = frequencies.get(byteRead);
 
-                if (frequency == null)
-                    frequencies.put(byteRead, 1);
-                else
-                    frequencies.put(byteRead, frequency + 1);
-            }
-            catch (EOFException EOF)
-            {
-                break;
-            }
+            if (frequency == null)
+                frequencies.put(byteRead, 1);
+            else
+                frequencies.put(byteRead, frequency + 1);
+
         }
 
         return frequencies;
@@ -79,21 +73,15 @@ public class Compressor
 
         input = new BitReader(inputFilename); // reset input
 
-        for (;;) //read the input file
-        {
-            try
-            {
-                byte nextByte = input.readByte();
-                BitVector code = bytesEncoding.get(nextByte);
 
-                output.writeBitVector(code);
-            }
-            catch (EOFException EOF)
-            {
-                output.writeTheRest();
-                output.writePadding();
-                break;
-            }
-        } // reading loop
+        while (!input.endOfFile())
+        {
+            byte nextByte = input.readByte();
+            BitVector code = bytesEncoding.get(nextByte);
+            output.writeBitVector(code);
+        }
+
+        output.writeTheRest();
+        output.writePadding();
     }
 }
