@@ -5,41 +5,37 @@ import java.io.*;
 public class BitReader
 {
     private byte currentByte;
-    ///private int currentByteNumber;
-    //private int byteOffset;
-    private BufferedReader input;
+    private BufferedInputStream input;
     private int paddingSize;
 
     private final long fileSize;
-    private long bitNumber = 0;
+    private long bitNumber;
 
-    private int BUFFER_CAPACITY = 2;
-    private char[] buffer;
-    private int bufferSize = 0;
-    private int bytesReadFromBuffer = 0;
+    private final int BUFFER_CAPACITY = 1024 * 1024;
+    private byte[] buffer;
+    private int bufferSize;
+    private int bytesReadFromBuffer;
 
     public BitReader(String filename) throws IOException
     {
         currentByte = 0;
-        // currentByteNumber = -1;
-        // byteOffset = 8; // So that the first read of bit reads new byte.
-
         fileSize = new RandomAccessFile(filename, "r").length() * 8;
         paddingSize = 0;
+        bitNumber = 0;
 
-        input = new BufferedReader(new FileReader(filename));
+        input = new BufferedInputStream(new FileInputStream(filename));
 
-        buffer = new char[BUFFER_CAPACITY];
+        buffer = new byte[BUFFER_CAPACITY];
+        bufferSize = 0;
+        bytesReadFromBuffer = 0;
     }
 
     public int readBit() throws IOException
     {
         long byteOffset = bitNumber % 8;
         if (byteOffset == 0)
-        {
             currentByte = getNextByte();
-            //byteOffset = 0;
-        }
+
         int bit = (currentByte >> (7 - byteOffset)) & 1;
         bitNumber++;
 
@@ -54,7 +50,7 @@ public class BitReader
             bytesReadFromBuffer = 0;
         }
 
-        return (byte) buffer[bytesReadFromBuffer++];
+        return buffer[bytesReadFromBuffer++];
     }
 
     public byte readByte() throws IOException
@@ -83,5 +79,10 @@ public class BitReader
     public void setPaddingSize() throws IOException
     {
         paddingSize = (readBit() << 2) | (readBit() << 1) | readBit(); // ??? operator precedence
+    }
+
+    public boolean paddingReached()
+    {
+        return bitNumber > (fileSize - 1 - paddingSize);
     }
 }

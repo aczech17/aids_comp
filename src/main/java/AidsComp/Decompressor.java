@@ -44,10 +44,10 @@ public class Decompressor
         AssociativeArray<Byte, BitVector> bytesEncoding = tree.getBytesEncoding();
         RandomAccessFile output = new RandomAccessFile(outputFilename, "rw");
 
-        while (!reader.endOfFile())
+        while (!reader.endOfFile() && !reader.paddingReached())
         {
             byte nextByte = getNextByte(bytesEncoding, reader);
-            output.writeByte((int)nextByte);
+            output.writeByte(nextByte);
         }
     }
 }
