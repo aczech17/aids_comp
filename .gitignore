@@ -3,7 +3,6 @@ output
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-META-INF/*
 out/*
 
 ### IntelliJ IDEA ###
