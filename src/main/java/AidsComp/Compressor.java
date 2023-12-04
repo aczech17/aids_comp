@@ -6,7 +6,6 @@ import Structures.AssociativeArray.AssociativeArray;
 import Structures.BitVector;
 import Structures.HuffmanTree;
 
-import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -81,7 +80,7 @@ public class Compressor
             output.writeBitVector(code);
         }
 
-        output.writeTheRest();
+        output.finish();
         output.writePadding();
     }
 }

@@ -1,11 +1,11 @@
 package AidsComp;
 
 import IOUtil.BitReader;
+import IOUtil.BitWriter;
 import Structures.AssociativeArray.AssociativeArray;
 import Structures.BitVector;
 import Structures.HuffmanTree;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 public class Decompressor
 {
@@ -42,12 +42,13 @@ public class Decompressor
 
         HuffmanTree tree = new HuffmanTree(reader);
         AssociativeArray<Byte, BitVector> bytesEncoding = tree.getBytesEncoding();
-        RandomAccessFile output = new RandomAccessFile(outputFilename, "rw");
+        BitWriter output = new BitWriter(outputFilename);
 
         while (!reader.endOfFile() && !reader.paddingReached())
         {
             byte nextByte = getNextByte(bytesEncoding, reader);
             output.writeByte(nextByte);
         }
+        output.finish();
     }
 }

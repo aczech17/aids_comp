@@ -2,20 +2,31 @@ package IOUtil;
 
 import Structures.BitVector;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class BitWriter
 {
-    private RandomAccessFile file;
+    String outputFilename;
+    private final BufferedOutputStream output;
     private byte currentByte;
     private int byteOffset;
 
+    final int BUFFER_CAPACITY = 64 * 1024 * 1024;
+    byte[] buffer;
+    int bufferSize;
+
     public BitWriter(String filename) throws IOException
     {
-        file = new RandomAccessFile(filename, "rw");
+        outputFilename = filename;
+        output = new BufferedOutputStream(new FileOutputStream(filename));
         currentByte = 0;
         byteOffset = 0;
+
+        buffer = new byte[BUFFER_CAPACITY];
+        bufferSize = 0;
     }
 
     public void writeBit(int bit) throws IOException
@@ -25,18 +36,32 @@ public class BitWriter
         byteOffset++;
         if (byteOffset == 8)
         {
-            file.writeByte(currentByte);
+            writeByte(currentByte);
             currentByte = 0;
             byteOffset = 0;
         }
     }
 
-    public void writeTheRest() throws IOException
+    public void writeByte(byte B) throws IOException
+    {
+        if (bufferSize == BUFFER_CAPACITY)
+        {
+            output.write(buffer, 0, bufferSize);
+            bufferSize = 0;
+        }
+        buffer[bufferSize++] = B;
+    }
+
+    public void finish() throws IOException
     {
         if (byteOffset > 0)
-        {
-            file.writeByte((int)currentByte);
-        }
+            writeByte(currentByte);
+
+        if (bufferSize > 0)
+            output.write(buffer, 0, bufferSize);
+
+        output.flush();
+        output.close();
     }
 
     public void writeBitVector(BitVector vector) throws IOException
@@ -50,7 +75,7 @@ public class BitWriter
 
     public void writePadding() throws IOException
     {
-        file.seek(0);
+        RandomAccessFile file = new RandomAccessFile(outputFilename, "rw");
         byte zeroByte = file.readByte();
 
         int padding = (8 - byteOffset) % 8;

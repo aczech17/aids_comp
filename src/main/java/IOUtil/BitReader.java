@@ -5,14 +5,14 @@ import java.io.*;
 public class BitReader
 {
     private byte currentByte;
-    private BufferedInputStream input;
+    private final BufferedInputStream input;
     private int paddingSize;
 
     private final long fileSize;
     private long bitNumber;
 
-    private final int BUFFER_CAPACITY = 1024 * 1024;
-    private byte[] buffer;
+    private final int BUFFER_CAPACITY = 64 * 1024 * 1024;
+    private final byte[] buffer;
     private int bufferSize;
     private int bytesReadFromBuffer;
 
@@ -78,7 +78,7 @@ public class BitReader
 
     public void setPaddingSize() throws IOException
     {
-        paddingSize = (readBit() << 2) | (readBit() << 1) | readBit(); // ??? operator precedence
+        paddingSize = (readBit() << 2) | (readBit() << 1) | readBit();
     }
 
     public boolean paddingReached()
