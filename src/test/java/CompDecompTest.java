@@ -1,7 +1,5 @@
 import AidsComp.AidsComp;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.*;
@@ -16,22 +14,6 @@ public class CompDecompTest
 
     private boolean filesAreEqual(String path1, String path2) throws IOException
     {
-//        RandomAccessFile file1 = null;
-//        RandomAccessFile file2 = null;
-//        try
-//        {
-//            file1 = new RandomAccessFile(path1, "r");
-//            file2 = new RandomAccessFile(path2, "r");
-//        }
-//        catch (FileNotFoundException exception)
-//        {
-//            System.out.println("nie ma pliku");
-//            return false;
-//        }
-//
-//        if (file1.length() != file2.length())
-//            return false;
-
         try (RandomAccessFile file1 = new RandomAccessFile(path1, "r");
              RandomAccessFile file2 = new RandomAccessFile(path2, "r"))
         {
@@ -39,72 +21,66 @@ public class CompDecompTest
             if (file1.length() != file2.length())
                 return false;
 
-            for (; ; )
+            for (;;)
             {
                 try
                 {
                     byte b1 = file1.readByte();
                     byte b2 = file2.readByte();
                     if (b1 != b2)
-                    {
-                        System.out.println(b1 + " " + b2);
                         return false;
-                    }
-                } catch (EOFException EOF)
+                }
+                catch (EOFException EOF)
                 {
                     return true;
                 }
             }
         }
     }
-    private boolean performTest(String inputFilename)
+    private boolean performTest(String inputFilename) throws IOException
     {
         String[] compressArgs = {"-c", inputFilename, compressedFileName};
         AidsComp.main(compressArgs);
 
-
         String[] decompressArgs = {"-d", compressedFileName, decompressedFilename};
         AidsComp.main(decompressArgs);
 
-        boolean success = false;
+        boolean result;
         try
         {
-            success = filesAreEqual(inputFilename, decompressedFilename);
+            result = filesAreEqual(inputFilename, decompressedFilename);
         }
         catch (IOException e)
         {
-            return false;
+            result = false;
         }
 
-        return success;
+        Files.delete(Paths.get(compressedFileName));
+        Files.delete(Paths.get(decompressedFilename));
+
+        return result;
     }
 
     @Test
-    public void emptyTest()
+    public void emptyTest() throws IOException
     {
         assertTrue(performTest("test_data/empty.txt"));
     }
     @Test
-    public void niemanieTest()
+    public void niemanieTest() throws IOException
     {
         assertTrue(performTest("test_data/niemanie.txt"));
     }
 
-    @AfterEach
-    public void cleanup()
+    @Test
+    public void panTadeuszTest() throws IOException
     {
-        try {
-            Thread.sleep(1000); // Opóźnienie 1 sekundy
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Files.delete(Paths.get(compressedFileName));
-            Files.delete(Paths.get(decompressedFilename));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        assertTrue(performTest("test_data/pan-tadeusz.txt"));
     }
 
+    @Test
+    public void jamnikTest() throws IOException
+    {
+        assertTrue(performTest("test_data/jamnik.png"));
+    }
 }
