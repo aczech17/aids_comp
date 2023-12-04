@@ -80,6 +80,8 @@ public class Compressor
             output.writeBitVector(code);
         }
 
+        input.finish();
+
         output.finish();
         output.writePadding();
     }

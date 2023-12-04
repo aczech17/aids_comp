@@ -34,21 +34,23 @@ public class Decompressor
 
     public static void decompress(String inputFilename, String outputFilename) throws IOException
     {
-        BitReader reader = new BitReader(inputFilename);
-        if (!reader.endOfFile()) // file is not empty
+        BitReader input = new BitReader(inputFilename);
+        if (!input.endOfFile()) // file is not empty
         {
-            reader.setPaddingSize();
+            input.setPaddingSize();
         }
 
-        HuffmanTree tree = new HuffmanTree(reader);
+        HuffmanTree tree = new HuffmanTree(input);
         AssociativeArray<Byte, BitVector> bytesEncoding = tree.getBytesEncoding();
         BitWriter output = new BitWriter(outputFilename);
 
-        while (!reader.endOfFile() && !reader.paddingReached())
+        while (!input.endOfFile() && !input.paddingReached())
         {
-            byte nextByte = getNextByte(bytesEncoding, reader);
+            byte nextByte = getNextByte(bytesEncoding, input);
             output.writeByte(nextByte);
         }
+
+        input.finish();
         output.finish();
     }
 }

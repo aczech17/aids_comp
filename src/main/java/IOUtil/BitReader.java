@@ -85,4 +85,9 @@ public class BitReader
     {
         return bitNumber > (fileSize - 1 - paddingSize);
     }
+
+    public void finish() throws IOException
+    {
+        input.close();
+    }
 }
