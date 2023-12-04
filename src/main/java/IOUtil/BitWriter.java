@@ -13,7 +13,7 @@ public class BitWriter
 
     public BitWriter(String filename) throws IOException
     {
-        file = new RandomAccessFile(filename, "rw"); // w?
+        file = new RandomAccessFile(filename, "rw");
         currentByte = 0;
         byteOffset = 0;
     }
@@ -25,7 +25,7 @@ public class BitWriter
         byteOffset++;
         if (byteOffset == 8)
         {
-            file.writeByte((int)currentByte);
+            file.writeByte(currentByte);
             currentByte = 0;
             byteOffset = 0;
         }
