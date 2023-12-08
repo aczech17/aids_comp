@@ -20,6 +20,12 @@ public class AidsComp
         String inputFilename = args[1];
         String outputFilename = args[2];
 
+        if (inputFilename.equals(outputFilename))
+        {
+            System.err.println("Input filename cannot be same as output.");
+            return;
+        }
+
         switch (option)
         {
             case "-c":
