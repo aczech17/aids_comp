@@ -58,9 +58,9 @@ public class Compressor
         if (input.endOfFile())
             return; // empty input => empty output
 
-        var byteFrequencies = getByteFrequencies(input);
+        AssociativeArray<Byte, Integer> byteFrequencies = getByteFrequencies(input);
         HuffmanTree huffmanTree = new HuffmanTree(byteFrequencies);
-        var bytesEncoding = huffmanTree.getBytesEncoding();
+        AssociativeArray<Byte, BitVector> bytesEncoding = huffmanTree.getBytesEncoding();
         BitVector treeEncoding = huffmanTree.getTreeEncoding();
 
         // write 3 bits for future padding writing
