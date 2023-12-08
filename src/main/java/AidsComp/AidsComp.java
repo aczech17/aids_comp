@@ -12,7 +12,7 @@ public class AidsComp
         final String usage = "aids_comp -[c or d] [input filename] [output filename]";
         if (args.length < 3)
         {
-            System.out.println(usage);
+            System.err.println(usage);
             return;
         }
 
@@ -25,19 +25,19 @@ public class AidsComp
             case "-c":
             {
                 try {compress(inputFilename, outputFilename);}
-                catch (IOException exception) {System.out.println(exception.getMessage());}
+                catch (IOException exception) {System.err.println(exception.getMessage());}
                 break;
             }
             case "-d":
             {
                 try {decompress(inputFilename, outputFilename);}
-                catch (IOException exception) {System.out.println(exception.getMessage());}
+                catch (IOException exception) {System.err.println(exception.getMessage());}
                 break;
             }
             default:
             {
-                System.out.println("Unknown option " + option + ".");
-                System.out.println("Usage: " + usage);
+                System.err.println("Unknown option " + option + ".");
+                System.err.println("Usage: " + usage);
             }
         }
     }
