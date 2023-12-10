@@ -35,9 +35,12 @@ public class CompDecompTest
                     return true;
                 }
             }
+        } catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(e);
         }
     }
-    private boolean performTest(String inputFilename) throws IOException
+    private boolean performTest(String inputFilename)
     {
         String[] compressArgs = {"-c", inputFilename, compressedFileName};
         AidsComp.main(compressArgs);
@@ -55,31 +58,57 @@ public class CompDecompTest
             result = false;
         }
 
-        Files.delete(Paths.get(compressedFileName));
-        Files.delete(Paths.get(decompressedFilename));
+        try
+        {
+            Files.delete(Paths.get(compressedFileName));
+            Files.delete(Paths.get(decompressedFilename));
+        }
+        catch (IOException exception)
+        {
+            System.err.println("Could not delete the temp files.");
+        }
 
         return result;
     }
 
     @Test
-    public void emptyTest() throws IOException
+    public void emptyTest()
     {
         assertTrue(performTest("test_data/empty.txt"));
     }
+
     @Test
-    public void niemanieTest() throws IOException
+    public void oneLetterTest()
+    {
+        assertTrue(performTest("test_data/one.txt"));
+    }
+
+    @Test
+    public void sameLetterTest()
+    {
+        assertTrue(performTest("test_data/data2.txt"));
+    }
+
+    @Test
+    public void fewLettersTest()
+    {
+        assertTrue(performTest("test_data/data.txt"));
+    }
+
+    @Test
+    public void shortTextTest()
     {
         assertTrue(performTest("test_data/niemanie.txt"));
     }
 
     @Test
-    public void panTadeuszTest() throws IOException
+    public void longTextTest()
     {
         assertTrue(performTest("test_data/pan-tadeusz.txt"));
     }
 
     @Test
-    public void jamnikTest() throws IOException
+    public void pngFileTest()
     {
         assertTrue(performTest("test_data/jamnik.png"));
     }
